@@ -1,5 +1,11 @@
 # Kubernetes with kind
 
+## How to select context 
+
+```bash
+kubectl cluster-info --context NAME
+```
+
 ## How to create a new cluster
     
 ```bash
@@ -22,4 +28,10 @@ kubectl apply -f k8s/FILE.yaml
     
 ```bash
     kubectl port-forward svc/goserver 8000:8000
+```
+
+## test de carga com fortio
+    
+```bash
+kubectl run -it fortio --rm --image=fortio/fortio -- load -qps 800 -t 120s -c 70 "http://goserver:8000/healthz"
 ```
