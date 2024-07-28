@@ -16,7 +16,27 @@ spec:
     spec:
       containers:
       - name: goserver
-        image: caluizoliveira/go-app:v6
+        image: caluizoliveira/go-app:v8
+        startupProbe:
+          httpGet:
+            path: /health
+            port: 80
+          periodSeconds: 3
+          failureThreshold: 30
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 80
+          periodSeconds: 5
+          failureThreshold: 3
+          timeoutSeconds: 1
+          successThreshold: 1
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 80
+          periodSeconds: 3
+          failureThreshold: 1
         envFrom:
           - configMapRef:
               name: goserver-env
