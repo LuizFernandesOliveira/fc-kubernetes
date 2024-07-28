@@ -8,7 +8,7 @@ spec:
   selector:
     matchLabels:
       app: goserver
-  replicas: 2
+  replicas: 1
   template:
     metadata:
       labels:
@@ -23,7 +23,7 @@ spec:
             memory: 20Mi
             cpu: 100m
           limits:
-            cpu: 500m
+            cpu: 200m
             memory: 25Mi
         
         startupProbe:
