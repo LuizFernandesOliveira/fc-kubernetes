@@ -54,7 +54,6 @@ spec:
         volumeMounts:
           - mountPath: "/go/myfamily"
             name: config
-      -
       volumes:
         - name: config
           configMap:
