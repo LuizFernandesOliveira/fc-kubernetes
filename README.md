@@ -3,7 +3,7 @@
 ## How to select context 
 
 ```bash
-kubectl cluster-info --context NAME
+kubectl config use-context NAME
 ```
 
 ## How to create a new cluster
