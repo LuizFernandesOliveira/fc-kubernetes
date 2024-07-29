@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: goserver
+  labels:
+    app: goserver
+spec:
+  selector:
+    matchLabels:
+      app: goserver
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: goserver
+    spec:
+      containers:
+      - name: goserver
+        image: caluizoliveira/go-app:v2
+        
+        resources:
+          requests:
+            memory: 20Mi
+            cpu: 100m
+          limits:
+            cpu: 200m
+            memory: 25Mi
+        
+        startupProbe:
+          httpGet:
+            path: /health
+            port: 80
+          periodSeconds: 3
+          failureThreshold: 30
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 80
+          periodSeconds: 5
+          failureThreshold: 3
+          timeoutSeconds: 1
+          successThreshold: 1
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 80
+          periodSeconds: 3
+          failureThreshold: 1
+        envFrom:
+          - configMapRef:
+              name: goserver-env
+        volumeMounts:
+          - mountPath: "/go/myfamily"
+            name: config
+      volumes:
+        - name: config
+          configMap:
+            name: configmap-family
+            items:
+            - key: members
+              path: "family.txt"
